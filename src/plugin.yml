@@ -1,0 +1,5 @@
+name: ProjectKorraSpirits
+author: ProjectKorra
+version: 1.0.0 PRIVATE PREALPHA
+main: com.projectkorra.spirits.ProjectKorraSpirits
+softdepend: [ProjectKorra]
