@@ -30,7 +30,7 @@ public class SpiritListener implements Listener {
 	public void onElementChange(PlayerChangeElementEvent event) {
 		Element element = event.getElement();
 		Result result = event.getResult();
-		if (element.equals(SpiritElement.SPIRIT)) {
+		if (element != null && element.equals(SpiritElement.SPIRIT)) {
 			if (result.equals(Result.CHOOSE) || result.equals(Result.ADD)) {
 				SpiritMethods.chooseSpirit(event.getTarget());
 			} else if (result.equals(Result.PERMAREMOVE) || result.equals(Result.REMOVE)) {
