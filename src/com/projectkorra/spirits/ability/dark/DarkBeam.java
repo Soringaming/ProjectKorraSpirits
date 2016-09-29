@@ -1,13 +1,13 @@
 package com.projectkorra.spirits.ability.dark;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.spirits.ability.DarkAbility;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 public class DarkBeam extends DarkAbility {
 

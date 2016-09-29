@@ -2,4 +2,16 @@ name: ProjectKorraSpirits
 author: ProjectKorra
 version: 1.0.0 PRIVATE PREALPHA
 main: com.projectkorra.spirits.ProjectKorraSpirits
-softdepend: [ProjectKorra]
+depend: [ProjectKorra]
+commands:
+  spirits:
+    aliases: [sp, s]
+permissions:
+  spirits.admin:
+    default: op
+    children:
+      spirits.command.spawn: true
+  spirits.default:
+    default: true
+    children:
+      spirits.command.help: true

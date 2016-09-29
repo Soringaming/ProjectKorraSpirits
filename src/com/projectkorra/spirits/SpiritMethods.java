@@ -1,16 +1,18 @@
 package com.projectkorra.spirits;
 
-import com.projectkorra.projectkorra.Element.SubElement;
-import com.projectkorra.projectkorra.ProjectKorra;
-import com.projectkorra.spirits.storage.DBConnection;
-
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 import java.util.UUID;
+
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import com.projectkorra.projectkorra.Element.SubElement;
+import com.projectkorra.projectkorra.ProjectKorra;
+import com.projectkorra.spirits.configuration.ConfigManager;
+import com.projectkorra.spirits.storage.DBConnection;
 
 public class SpiritMethods {
 
@@ -77,5 +79,15 @@ public class SpiritMethods {
 			sPlayer.setDarkSpirit();
 			player.sendMessage(SpiritElement.DARK.getColor() + "You have become a Dark Spirit!");
 		}
+	}
+	
+	public static boolean isSpiritWorldEnabled() {
+		
+		return ConfigManager.getConfig().getBoolean("Properties.SpiritWorld.Enabled");
+	}
+	
+	public static boolean isSpiritWorld(World world) {
+		
+		return world.getName().equalsIgnoreCase(ConfigManager.getConfig().getString("Properties.SpiritWorld.WorldName"));
 	}
 }
