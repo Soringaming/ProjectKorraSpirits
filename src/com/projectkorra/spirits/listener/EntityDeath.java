@@ -9,11 +9,17 @@ public class EntityDeath implements Listener {
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event) {
 		
-		//if (Spirit.isSpirit(event.getEntity())) {
+		/*
+		if (Spirit.isSpirit(event.getEntity())) {
 			
-			//Spirit spirit = Spirit.getSpirit(event.getEntity());
-			//Bukkit.getServer().getPluginManager().callEvent(new SpiritDeathEvent(spirit));
-		//}
+			Spirit spirit = Spirit.getSpirit(event.getEntity());
+			event.getDrops().clear();
+			for (ItemStack item : spirit.getDrops()) {
+				event.getDrops().add(item);
+			}
+			Bukkit.getServer().getPluginManager().callEvent(new SpiritDeathEvent(spirit));
+		}
+		*/
 	}
 
 }
