@@ -3,8 +3,12 @@ package com.projectkorra.spirits;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.WorldCreator;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
@@ -16,9 +20,10 @@ import com.projectkorra.spirits.configuration.ConfigManager;
 import com.projectkorra.spirits.listener.AbilityListener;
 import com.projectkorra.spirits.listener.EntityDamageByEntity;
 import com.projectkorra.spirits.listener.EntityDeath;
+import com.projectkorra.spirits.listener.PlayerChangedWorld;
+import com.projectkorra.spirits.listener.PlayerJoin;
 import com.projectkorra.spirits.listener.SpiritDamage;
 import com.projectkorra.spirits.listener.SpiritListener;
-import com.projectkorra.spirits.spiritmob.Spirit;
 import com.projectkorra.spirits.spiritworld.SpiritWorldGenerator;
 import com.projectkorra.spirits.storage.DBConnection;
 
@@ -26,6 +31,7 @@ public class ProjectKorraSpirits extends JavaPlugin {
 
 	public static ProjectKorraSpirits plugin;
 	public static Logger log;
+	public static BossBar BAR = Bukkit.createBossBar(ChatColor.BLUE + "" + ChatColor.BOLD + "Spirit World", BarColor.PURPLE, BarStyle.SOLID);
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -58,7 +64,10 @@ public class ProjectKorraSpirits extends JavaPlugin {
 		registerEvents();
 		
 		if (Bukkit.getWorld(ConfigManager.getConfig().getString("Properties.SpiritWorld.WorldName")) != null) {
-			Bukkit.createWorld(new WorldCreator(ConfigManager.getConfig().getString("Properties.SpiritWorld.WorldName")));
+			World spiritWorld = Bukkit.createWorld(new WorldCreator(ConfigManager.getConfig().getString("Properties.SpiritWorld.WorldName")));
+			for (Player player : spiritWorld.getPlayers()) {
+				BAR.addPlayer(player);
+			}
 		}
 	}
 	
@@ -68,9 +77,8 @@ public class ProjectKorraSpirits extends JavaPlugin {
 			DBConnection.sql.close();
 		}
 		
-		for (Spirit spirit : Spirit.SPIRITS.values()) {
-			LivingEntity sEntity = spirit.getEntity();
-			sEntity.remove(); // Despawning all Spirits on disable until spirits don't get lost on reload.
+		for (Player player : BAR.getPlayers()) {
+			BAR.removePlayer(player);
 		}
 	}
 	
@@ -80,6 +88,8 @@ public class ProjectKorraSpirits extends JavaPlugin {
 		pm.registerEvents(new EntityDamageByEntity(), this);
 		pm.registerEvents(new EntityDeath(), this);
 		pm.registerEvents(new SpiritDamage(), this);
+		pm.registerEvents(new PlayerChangedWorld(), this);
+		pm.registerEvents(new PlayerJoin(), this);
 	}
 	
 	@Override

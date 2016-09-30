@@ -41,6 +41,7 @@ public class Commands {
 
 		//Base Commands
 		new HelpCommand();
+		new ListCommand();
 		new SpawnCommand();
 		new SpiritWorldCommand();
 

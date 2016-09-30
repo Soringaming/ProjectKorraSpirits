@@ -3,10 +3,12 @@ package com.projectkorra.spirits.command;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.spirits.spiritmob.DarkSpirit;
+import com.projectkorra.spirits.spiritmob.SpiritType;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class SpawnCommand extends SpiritsCommand {
 	
@@ -22,10 +24,22 @@ public class SpawnCommand extends SpiritsCommand {
 		
 		Player player = (Player) sender;
 		
-		DarkSpirit darkSpirit = new DarkSpirit();
-		darkSpirit.spawn(player.getLocation());
-		LivingEntity dsEntity = darkSpirit.getEntity();
-		dsEntity.setSilent(true);
+		if (args.size() < 1) {
+			player.sendMessage(ChatColor.RED + "Please specify a spirit. " + ChatColor.DARK_RED + "/spirits spawn <spirit>");
+			return;
+		}
+		
+		String given = args.get(0);
+		for (SpiritType spirit : SpiritType.values()) {
+			if (given.equalsIgnoreCase(spirit.getSpiritName().replace(" ", ""))) {
+				if (spirit == SpiritType.DARK_SPIRIT) {
+					
+					DarkSpirit darkSpirit = new DarkSpirit(player.getWorld());
+					SpiritType.spawnEntity(darkSpirit, player.getLocation());
+				}
+			}
+			
+		}
 	}
 	
 }

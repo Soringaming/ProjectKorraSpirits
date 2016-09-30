@@ -2,11 +2,19 @@ package com.projectkorra.spirits;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.projectkorra.projectkorra.Element.SubElement;
@@ -81,6 +89,27 @@ public class SpiritMethods {
 		}
 	}
 	
+	public static ItemStack createItem(Material material, int amount, short shrt, String displayname, HashMap<Enchantment, Integer> enchantments, String... lore) {
+		
+		ItemStack item = new ItemStack(material, amount, (short) shrt);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(displayname);
+		ArrayList<String> Lore = new ArrayList<String>();
+		for(String loreString : lore) {
+			Lore.add(loreString);
+		}
+		meta.setLore(Lore);
+		
+		item.setItemMeta(meta);
+		if (enchantments != null) {
+			for (Enchantment enchantment : enchantments.keySet()) {
+				item.addUnsafeEnchantment(enchantment, enchantments.get(enchantment));
+			}
+		}
+		
+		return item;
+	}
+	
 	public static boolean isSpiritWorldEnabled() {
 		
 		return ConfigManager.getConfig().getBoolean("Properties.SpiritWorld.Enabled");
@@ -89,5 +118,63 @@ public class SpiritMethods {
 	public static boolean isSpiritWorld(World world) {
 		
 		return world.getName().equalsIgnoreCase(ConfigManager.getConfig().getString("Properties.SpiritWorld.WorldName"));
+	}
+	
+	public static Location getPortalLocation(boolean spiritWorld, boolean northern) {
+		
+		String worldPath = spiritWorld ? "SpiritWorld" : "Overworld";
+		String portalPath = northern ? "Northern" : "Southern";
+		
+		if (!portalExists(spiritWorld, northern)) {
+			return null;
+		}
+		
+		World world = Bukkit.getWorld(ConfigManager.getData().getString(worldPath + ".WorldName"));
+		double x = ConfigManager.getData().getDouble("Portals." + worldPath + "." + portalPath + ".Location.x");
+		double y = ConfigManager.getData().getDouble("Portals." + worldPath + "." + portalPath + ".Location.y");
+		double z = ConfigManager.getData().getDouble("Portals." + worldPath + "." + portalPath + ".Location.z");
+		float yaw = (float) ConfigManager.getData().getDouble("Portals." + worldPath + "." + portalPath + ".Location.yaw");
+		float pitch = (float) ConfigManager.getData().getDouble("Portals." + worldPath + "." + portalPath + ".Location.pitch");
+		
+		return new Location(world, x, y, z, yaw, pitch);
+	}
+	
+	public static void setPortalLocation(Location location, boolean spiritWorld, boolean northern) {
+		
+		if (portalExists(spiritWorld, northern)) {
+			return;
+		}
+		
+		String worldPath = spiritWorld ? "SpiritWorld" : "Overworld";
+		String portalPath = northern ? "Northern" : "Southern";
+		
+		ConfigManager.getData().set("Portals." + worldPath + "." + portalPath + ".Valid", Boolean.valueOf(true));
+		ConfigManager.getData().set(worldPath + ".WorldName", location.getWorld().getName());
+		ConfigManager.getData().set("Portals." + worldPath + "." + portalPath + ".Location.x", location.getX());
+		ConfigManager.getData().set("Portals." + worldPath + "." + portalPath + ".Location.y", location.getY());
+		ConfigManager.getData().set("Portals." + worldPath + "." + portalPath + ".Location.z", location.getZ());
+		ConfigManager.getData().set("Portals." + worldPath + "." + portalPath + ".Location.yaw", location.getYaw());
+		ConfigManager.getData().set("Portals." + worldPath + "." + portalPath + ".Location.pitch", location.getPitch());
+		
+		ConfigManager.dataConfig.save();
+	}
+	
+	public static boolean portalExists(boolean spiritWorld, boolean northern) {
+		
+		String worldPath = spiritWorld ? "SpiritWorld" : "Overworld";
+		String portalPath = northern ? "Northern" : "Southern";
+		
+		return ConfigManager.getData().getBoolean("Portals." + worldPath + "." + portalPath + ".Valid");
+	}
+	
+	public static void displayBar(Player player, boolean display) {
+		
+		if (display && !ProjectKorraSpirits.BAR.getPlayers().contains(player)) {
+			ProjectKorraSpirits.BAR.addPlayer(player);
+		}
+		
+		if (!display && ProjectKorraSpirits.BAR.getPlayers().contains(player)) {
+			ProjectKorraSpirits.BAR.removePlayer(player);
+		}
 	}
 }
