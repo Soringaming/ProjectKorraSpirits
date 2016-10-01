@@ -16,6 +16,8 @@ public class ConfigManager {
 		dataConfig = new Config(new File("data.yml"));
 		setupConfig();
 		setupData();
+		
+		com.projectkorra.projectkorra.configuration.ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 	}
 	
 	public static void setupConfig() {
@@ -30,8 +32,8 @@ public class ConfigManager {
 		config.addDefault("Storage.MySQL.db", "minecraft");
 		config.addDefault("Storage.MySQL.user", "root");
 
-		config.addDefault("Properties.Chat.Colors.Spirit", "BLUE");
-		config.addDefault("Properties.Chat.Colors.SpiritSub", "BLUE");
+		config.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
+		config.addDefault("Chat.Colors.SpiritSub", "BLUE");
 		
 		config.addDefault("Properties.Chat.Messages.SpiritWorldDisabled", "&cThe Spirit World has been disabled via plugin configuration.");
 		config.addDefault("Properties.Chat.Messages.InsufficientPermissions", "&cYou don't have permission to do that.");
@@ -53,6 +55,31 @@ public class ConfigManager {
 		config.addDefault("Properties.SpiritWorld.Enabled", Boolean.valueOf(true));
 		config.addDefault("Properties.SpiritWorld.WorldName", "spiritworld");
 		config.addDefault("Properties.SpiritWorld.RegionProtected", Boolean.valueOf(true));
+
+		config.addDefault("Abilities.Dark.DarkBeam.Enabled", true);
+		config.addDefault("Abilities.Dark.DarkBeam.Cooldown", 1000);
+		config.addDefault("Abilities.Dark.DarkBeam.Range", 40);
+		
+		config.addDefault("Abilities.Dark.Corruption.Enabled", true);
+		config.addDefault("Abilities.Dark.Corruption.Cooldown", 1000);
+		config.addDefault("Abilities.Dark.Corruption.Range", 40);
+		
+		config.addDefault("Abilities.Dark.SoulRebirth.Enabled", true);
+		config.addDefault("Abilities.Dark.SoulRebirth.Cooldown", 7000);
+		config.addDefault("Abilities.Dark.SoulRebirth.Range", 15);
+		config.addDefault("Abilities.Dark.SoulRebirth.Duration", 5000);
+		
+		config.addDefault("Abilities.Light.LightBeam.Enabled", true);
+		config.addDefault("Abilities.Light.LightBeam.Cooldown", 1000);
+		config.addDefault("Abilities.Light.LightBeam.Range", 40);
+		
+		config.addDefault("Abilities.Light.Contain.Enabled", true);
+		config.addDefault("Abilities.Light.Contain.Cooldown", 1000);
+		config.addDefault("Abilities.Light.Contain.Range", 40);
+		
+		config.addDefault("Abilities.Light.Protect.Enabled", true);
+		config.addDefault("Abilities.Light.Protect.Cooldown", 1000);
+		config.addDefault("Abilities.Light.Protect.Range", 40);
 		
 		defaultConfig.save();
 	}
