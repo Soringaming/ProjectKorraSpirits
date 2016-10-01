@@ -5,11 +5,14 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import net.minecraft.server.v1_10_R1.EntityCow;
 import net.minecraft.server.v1_10_R1.EntityHuman;
 import net.minecraft.server.v1_10_R1.EntityPig;
-import net.minecraft.server.v1_10_R1.EntityZombie;
+import net.minecraft.server.v1_10_R1.EntitySpider;
 import net.minecraft.server.v1_10_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_10_R1.PathfinderGoalHurtByTarget;
 import net.minecraft.server.v1_10_R1.PathfinderGoalLookAtPlayer;
@@ -21,7 +24,7 @@ import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 
-public class DarkSpirit extends EntityZombie {
+public class DarkSpirit extends EntitySpider {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DarkSpirit(World world) {
@@ -46,6 +49,8 @@ public class DarkSpirit extends EntityZombie {
 		
 		this.setCustomName(ChatColor.DARK_PURPLE + "Dark Spirit");
 		this.setCustomNameVisible(true);
+		LivingEntity spirit = ((LivingEntity) this.getBukkitEntity());
+		spirit.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1));
     }
 	
 }

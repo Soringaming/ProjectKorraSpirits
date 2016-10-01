@@ -28,6 +28,23 @@ import com.projectkorra.spirits.spiritworld.SpiritWorldGenerator;
 import com.projectkorra.spirits.storage.DBConnection;
 
 public class ProjectKorraSpirits extends JavaPlugin {
+	
+	/*
+	 *  Good Spirits Suggestions
+	 *  
+	 *  http://projectkorra.com/threads/spiritual-energy-levels.2293/
+	 *  http://projectkorra.com/threads/wan-shi-tongs-spirit-library.4433/    - Not necessarily the library, but maybe other iconic structures
+	 *  http://projectkorra.com/threads/summonallies.4086/
+	 *  http://projectkorra.com/threads/rejuvenate-syphon.4089/
+	 *  
+	 *  
+	 *  Maybe Suggestions
+	 *  
+	 *  http://projectkorra.com/threads/light-spirit-ability-lightflash-and-glide.4409/
+	 *  http://projectkorra.com/threads/dark-spirit-ability-darkflash-and-descent.4408/
+	 *  
+	 * 
+	 */
 
 	public static ProjectKorraSpirits plugin;
 	public static Logger log;

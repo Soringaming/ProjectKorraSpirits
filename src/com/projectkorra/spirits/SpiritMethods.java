@@ -2,19 +2,13 @@ package com.projectkorra.spirits;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.projectkorra.projectkorra.Element.SubElement;
@@ -87,27 +81,6 @@ public class SpiritMethods {
 			sPlayer.setDarkSpirit();
 			player.sendMessage(SpiritElement.DARK.getColor() + "You have become a Dark Spirit!");
 		}
-	}
-	
-	public static ItemStack createItem(Material material, int amount, short shrt, String displayname, HashMap<Enchantment, Integer> enchantments, String... lore) {
-		
-		ItemStack item = new ItemStack(material, amount, (short) shrt);
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(displayname);
-		ArrayList<String> Lore = new ArrayList<String>();
-		for(String loreString : lore) {
-			Lore.add(loreString);
-		}
-		meta.setLore(Lore);
-		
-		item.setItemMeta(meta);
-		if (enchantments != null) {
-			for (Enchantment enchantment : enchantments.keySet()) {
-				item.addUnsafeEnchantment(enchantment, enchantments.get(enchantment));
-			}
-		}
-		
-		return item;
 	}
 	
 	public static boolean isSpiritWorldEnabled() {

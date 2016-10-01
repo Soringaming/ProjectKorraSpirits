@@ -2,23 +2,19 @@ package com.projectkorra.spirits.ability.dark;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
-import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ability.ElementalAbility;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.spirits.ability.DarkAbility;
 import com.projectkorra.spirits.configuration.ConfigManager;
 
-public class DarkBeam extends DarkAbility {
+public class Corruption extends DarkAbility {
 	
-	private long cooldown;
-	private double range;
+	static long cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.Corruption.Cooldown");
+	static double range = ConfigManager.getConfig().getDouble("Abilities.Dark.Corruption.Range");
+	
 	private double distanceTravelled;
 	private Location location;
-	private Vector direction;
 
-	public DarkBeam(Player player) {
+	public Corruption(Player player) {
 		super(player);
 		
 		if (!bPlayer.canBend(this)) {
@@ -26,10 +22,7 @@ public class DarkBeam extends DarkAbility {
 			return;
 		}
 		
-		cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.DarkBeam.Cooldown");
-		range = ConfigManager.getConfig().getDouble("Abilities.Dark.DarkBeam.Range");
 		location = player.getEyeLocation();
-		direction = player.getEyeLocation().getDirection().normalize();
 		bPlayer.addCooldown(this);
 		start();
 	}
@@ -52,25 +45,9 @@ public class DarkBeam extends DarkAbility {
 			return;
 		}
 		
-		progressBeam();
-	}
-
-	private void progressBeam() {
-		for (int i = 0; i < 2; i++) {
-			distanceTravelled++;
-			if (distanceTravelled >= range) {
-				return;
-			}
-
-			location = location.add(direction.clone().multiply(1));
-			if (GeneralMethods.isSolid(location.getBlock()) || ElementalAbility.isWater(location.getBlock())) {
-				distanceTravelled = range;
-				return;
-			}
-
-			ParticleEffect.LARGE_SMOKE.display((float) Math.random(), (float) Math.random(), (float) Math.random(), 0.1f, 5, location, 257D);
-			ParticleEffect.WITCH_MAGIC.display((float) Math.random(), (float) Math.random(), (float) Math.random(), 0.1f, 5, location, 257D);
-		}
+		// TODO stuff
+		remove();
+		return;
 	}
 
 	@Override
@@ -85,7 +62,7 @@ public class DarkBeam extends DarkAbility {
 
 	@Override
 	public String getName() {
-		return "DarkBeam";
+		return "Corruption";
 	}
 	
 	@Override

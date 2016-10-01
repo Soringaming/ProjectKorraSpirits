@@ -9,7 +9,7 @@ import net.minecraft.server.v1_10_R1.Entity;
 
 public enum SpiritType {
 	
-	DARK_SPIRIT("Dark Spirit", 54, DarkSpirit.class);
+	DARK_SPIRIT("Dark Spirit", 52, DarkSpirit.class);
 
 	private String name;
 	
