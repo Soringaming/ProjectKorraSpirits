@@ -10,10 +10,10 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
-import com.projectkorra.spirits.ability.SpiritAbility;
+import com.projectkorra.spirits.ability.DarkAbility;
 import com.projectkorra.spirits.configuration.ConfigManager;
 
-public class DarkBeam extends SpiritAbility {
+public class DarkBeam extends DarkAbility {
 	
 	static long cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.DarkBeam.Cooldown");
 	static double range = ConfigManager.getConfig().getDouble("Abilities.Dark.DarkBeam.Range");
