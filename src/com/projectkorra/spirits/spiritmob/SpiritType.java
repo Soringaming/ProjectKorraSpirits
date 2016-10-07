@@ -9,7 +9,14 @@ import net.minecraft.server.v1_10_R1.Entity;
 
 public enum SpiritType {
 	
-	DARK_SPIRIT("Dark Spirit", 52, DarkSpirit.class);
+	/*
+	 * Mob ID list
+	 * 
+	 * http://minecraft-ids.grahamedgecombe.com/entities
+	 */
+
+	DARK_SPIRIT("DarkSpirit", 52, DarkSpirit.class),
+	LIGHT_SPIRIT("LightSpirit", 91, LightSpirit.class);
 
 	private String name;
 	

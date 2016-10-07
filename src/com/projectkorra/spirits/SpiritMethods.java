@@ -2,14 +2,19 @@ package com.projectkorra.spirits;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.Element.SubElement;
 import com.projectkorra.projectkorra.ProjectKorra;
@@ -21,7 +26,7 @@ public class SpiritMethods {
 	static Random rand = new Random();
 	/**
 	 * Creates a {@link SpiritPlayer} with the data from the database. This
-	 * runs when a player logs in.
+	 * runs when a player logs in.entities
 	 * 
 	 * @param player The player
 	 * @throws SQLException
@@ -81,6 +86,54 @@ public class SpiritMethods {
 			sPlayer.setDarkSpirit();
 			player.sendMessage(SpiritElement.DARK.getColor() + "You have become a Dark Spirit!");
 		}
+	}
+	
+	public static int randomInteger(int min, int max) {
+		Random rand = new Random();
+		int randomNumber = rand.nextInt((max - min) + 1) + min;
+		return randomNumber;
+	}
+	
+	public static List<Location> getLocationsBetweenTwoPoints(Location loc1, Location loc2, float... interval) {
+		
+		float f = interval.length == 0 ? 0.2F : interval[0];
+		
+		double distance = loc1.distance(loc2);
+		Vector vec = new Vector(loc2.getX() - loc1.getX(), loc2.getY() - loc1.getY(), loc2.getZ() - loc1.getZ()).normalize();
+		List<Location> locations = new ArrayList<Location>();
+		for (int i = 0; i < distance / f; i++) {
+			locations.add(loc1.clone().add(vec.clone().multiply(i * f)));
+		}
+		return locations;
+	}
+	
+	public static Block getTargetBlock(Player player, int range) {
+		BlockIterator iterator = new BlockIterator(player, range);
+		Block prevBlock = iterator.next();
+		while (iterator.hasNext()) {
+			prevBlock = iterator.next();
+			if (!prevBlock.getType().isSolid() && !prevBlock.isLiquid()) {
+				continue;
+			}
+			break;
+		}
+		
+		return prevBlock;
+	}
+	
+	public static ArrayList<Location> getCircle(Location centre, double radius, int amount) {
+		
+		World world = centre.getWorld();
+		double increment = (2 * Math.PI) / amount;
+		ArrayList<Location> locations = new ArrayList<Location>();
+		for (int i = 0; i < amount; i++) {
+			double angle = i * increment;
+			double x = centre.getX() + (radius * Math.cos(angle));
+			double z = centre.getZ() + (radius * Math.sin(angle));
+			locations.add(new Location(world, x, centre.getY(), z));
+		}
+		
+		return locations;
 	}
 	
 	public static boolean isSpiritWorldEnabled() {

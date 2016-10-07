@@ -5,14 +5,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.projectkorra.spirits.spiritmob.Spirit;
+import com.projectkorra.spirits.spiritmob.SpiritType;
 
 public class SpiritAttackEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private boolean cancelled = false;
-	private Spirit spirit;
+	private SpiritType spirit;
 	private Entity entity;
 	private double damage;
 	
@@ -23,7 +23,7 @@ public class SpiritAttackEvent extends Event implements Cancellable {
 	 * @param damage The amount of damage dealt
 	 */
 	
-	public SpiritAttackEvent(Spirit spirit, Entity entity, double damage) {
+	public SpiritAttackEvent(SpiritType spirit, Entity entity, double damage) {
 		this.spirit = spirit;
 		this.entity = entity;
 		this.damage = damage;
@@ -34,7 +34,7 @@ public class SpiritAttackEvent extends Event implements Cancellable {
 	 * @return the attacking spirit
 	 */
 	
-	public Spirit getSpirit() {
+	public SpiritType getSpirit() {
 		return spirit;
 	}
 	

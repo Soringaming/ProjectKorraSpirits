@@ -4,21 +4,21 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.projectkorra.spirits.spiritmob.Spirit;
+import com.projectkorra.spirits.spiritmob.SpiritType;
 
 public class SpiritSpawnEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private boolean cancelled = false;
-	private Spirit spirit;
+	private SpiritType spirit;
 	
 	/**
 	 * Create a new SpiritSpawnEvent
 	 * @param spirit The spirit spawned
 	 */
 	
-	public SpiritSpawnEvent(Spirit spirit) {
+	public SpiritSpawnEvent(SpiritType spirit) {
 		this.spirit = spirit;
 	}
 	
@@ -27,7 +27,7 @@ public class SpiritSpawnEvent extends Event implements Cancellable {
 	 * @return the spirit spawned
 	 */
 	
-	public Spirit getSpirit() {
+	public SpiritType getSpirit() {
 		return spirit;
 	}
 	

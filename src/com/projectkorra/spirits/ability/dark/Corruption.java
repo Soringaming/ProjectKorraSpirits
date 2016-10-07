@@ -45,7 +45,7 @@ public class Corruption extends DarkAbility {
 			return;
 		}
 		
-		// TODO stuff
+		player.sendMessage("Activate");
 		remove();
 		return;
 	}
