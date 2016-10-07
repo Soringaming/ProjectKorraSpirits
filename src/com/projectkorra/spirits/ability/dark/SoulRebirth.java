@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.CoreAbility;
+import com.projectkorra.projectkorra.util.ParticleEffect;
+import com.projectkorra.spirits.SpiritMethods;
 import com.projectkorra.spirits.ability.DarkAbility;
 import com.projectkorra.spirits.configuration.ConfigManager;
 import com.projectkorra.spirits.spiritmob.DarkSpirit;
 import com.projectkorra.spirits.spiritmob.SpiritType;
 
-public class SoulRebirth extends DarkAbility {	
+public class SoulRebirth extends DarkAbility {
 	
 	static long cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.SoulRebirth.Cooldown");
 	static double range = ConfigManager.getConfig().getDouble("Abilities.Dark.SoulRebirth.Range");
@@ -63,27 +66,32 @@ public class SoulRebirth extends DarkAbility {
 				return;
 			}
 			
-			int option = System.currentTimeMillis() - startTime < 2500 ? 1 : System.currentTimeMillis() - startTime < 5000 ? 2 : 3;
+			int option = System.currentTimeMillis() - startTime < 1000 ? 1 :
+				System.currentTimeMillis() - startTime < 2000 ? 2 :
+					System.currentTimeMillis() - startTime < 3000 ? 3 :
+						System.currentTimeMillis() - startTime < 4000 ? 4 : 5;
 			Location point = player.getLocation().clone().add(player.getLocation().getDirection()).add(0, 1.5, 0);
 			
-			switch (option) {
+			switch (option) { // http://trycolors.com/
 				case 1:
-					GeneralMethods.displayColoredParticle(point, "000000");
+					GeneralMethods.displayColoredParticle(point, "000000"); // 100% black 0% white
 					break;
 				case 2:
-					GeneralMethods.displayColoredParticle(point, "7f7f7f");
+					GeneralMethods.displayColoredParticle(point, "404040"); // 75% black 25% white
 					break;
 				case 3:
-					GeneralMethods.displayColoredParticle(point, "ffffff");
+					GeneralMethods.displayColoredParticle(point, "808080");	// 50% black 50% white
+					break;
+				case 4:
+					GeneralMethods.displayColoredParticle(point, "bfbfbf");	// 25% black 75% white
+					break;
+				case 5:
+					GeneralMethods.displayColoredParticle(point, "ffffff");	// 0% black 100% white
 					break;
 			}
-			/*
-			if (System.currentTimeMillis() - startTime > 5000) {
-				ParticleEffect.WITCH_MAGIC.display(player.getLocation().clone().add(player.getLocation().getDirection()).add(0, 1.5, 0), 0, 0, 0, 0, 1);
-			} else {
-				ParticleEffect.SMOKE.display(player.getLocation().clone().add(player.getLocation().getDirection()).add(0, 1.5, 0), 0, 0, 0, 0, 1);
-			}
-			*/
+
+			ParticleEffect.WITCH_MAGIC.display(player.getLocation(), 3, 1, 3, 0, 1);
+			ParticleEffect.SMOKE.display(player.getLocation(), 3, 1, 3, 0, 2);
 		}
 	}
 	
@@ -112,8 +120,13 @@ public class SoulRebirth extends DarkAbility {
 		this.spawnTime = System.currentTimeMillis();
 		
 		for (int i = 0; i < amount; i++) {
-			DarkSpirit darkSpirit = new DarkSpirit(player.getWorld());
-			SpiritType.spawnEntity(darkSpirit, player.getLocation());
+			ArrayList<Location> locations = SpiritMethods.getCircle(player.getLocation(), 3, 36);
+			int value = SpiritMethods.randomInteger(0, locations.size() - 1);
+			Location location = locations.get(value);
+			DarkSpirit darkSpirit = new DarkSpirit(location.getWorld());
+			SpiritType.spawnEntity(darkSpirit, location);
+			ParticleEffect.LARGE_SMOKE.display(location, 0, 0, 0, 0, 1);
+			location.getWorld().playSound(location, Sound.ENTITY_WITHER_SHOOT, 1, 0.1F);
 			spirits.add(darkSpirit);
 		}
 	}
@@ -165,6 +178,8 @@ public class SoulRebirth extends DarkAbility {
 		for (DarkSpirit darkSpirit : spirits) {
 			darkSpirit.getBukkitEntity().remove();
 		}
+		
+		spirits.clear();
 		
 		remove();
 	}

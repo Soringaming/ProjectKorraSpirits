@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.spirits.spiritmob.DarkSpirit;
+import com.projectkorra.spirits.spiritmob.LightSpirit;
 import com.projectkorra.spirits.spiritmob.SpiritType;
 
 import net.md_5.bungee.api.ChatColor;
@@ -31,11 +32,17 @@ public class SpawnCommand extends SpiritsCommand {
 		
 		String given = args.get(0);
 		for (SpiritType spirit : SpiritType.values()) {
-			if (given.equalsIgnoreCase(spirit.getSpiritName().replace(" ", ""))) {
+			if (given.equalsIgnoreCase(spirit.getSpiritName())) {
 				if (spirit == SpiritType.DARK_SPIRIT) {
 					
 					DarkSpirit darkSpirit = new DarkSpirit(player.getWorld());
 					SpiritType.spawnEntity(darkSpirit, player.getLocation());
+				}
+				
+				if (spirit == SpiritType.LIGHT_SPIRIT) {
+					
+					LightSpirit lightSpirit = new LightSpirit(player.getWorld());
+					SpiritType.spawnEntity(lightSpirit, player.getLocation());
 				}
 			}
 			

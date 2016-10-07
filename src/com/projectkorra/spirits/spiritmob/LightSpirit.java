@@ -7,7 +7,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 
 import net.minecraft.server.v1_10_R1.EntityHuman;
-import net.minecraft.server.v1_10_R1.EntitySpider;
+import net.minecraft.server.v1_10_R1.EntitySheep;
 import net.minecraft.server.v1_10_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_10_R1.PathfinderGoalHurtByTarget;
 import net.minecraft.server.v1_10_R1.PathfinderGoalLookAtPlayer;
@@ -19,10 +19,10 @@ import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 
-public class DarkSpirit extends EntitySpider {
-
+public class LightSpirit extends EntitySheep {
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DarkSpirit(World world) {
+	public LightSpirit(World world) {
 		super(((CraftWorld) world).getHandle());
 		
 		Set goalB = (Set) SpiritMobUtils.getPrivateField("b", PathfinderGoalSelector.class, goalSelector); goalB.clear();
@@ -39,13 +39,10 @@ public class DarkSpirit extends EntitySpider {
 		this.goalSelector.a(8, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 		this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
 		this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true));
-		this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, LightSpirit.class, true));
-		this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
+		this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, DarkSpirit.class, true));
 		
-		this.setCustomName(ChatColor.DARK_PURPLE + "Dark Spirit");
+		this.setCustomName(ChatColor.WHITE + "Light Spirit");
 		this.setCustomNameVisible(true);
-		//LivingEntity spirit = ((LivingEntity) this.getBukkitEntity());
-		//spirit.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1));
     }
-	
+
 }

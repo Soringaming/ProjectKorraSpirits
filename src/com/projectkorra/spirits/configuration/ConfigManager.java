@@ -59,6 +59,7 @@ public class ConfigManager {
 		config.addDefault("Abilities.Dark.DarkBeam.Enabled", true);
 		config.addDefault("Abilities.Dark.DarkBeam.Cooldown", 1000);
 		config.addDefault("Abilities.Dark.DarkBeam.Range", 40);
+		config.addDefault("Abilities.Dark.DarkBeam.Damage", 4);
 		
 		config.addDefault("Abilities.Dark.Corruption.Enabled", true);
 		config.addDefault("Abilities.Dark.Corruption.Cooldown", 1000);

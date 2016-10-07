@@ -3,20 +3,20 @@ package com.projectkorra.spirits.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.projectkorra.spirits.spiritmob.Spirit;
+import com.projectkorra.spirits.spiritmob.SpiritType;
 
 public class SpiritDeathEvent extends Event {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
-	private Spirit spirit;
+	private SpiritType spirit;
 	
 	/**
 	 * Create a new SpiritDeathEvent
 	 * @param spirit The spirit killed
 	 */
 	
-	public SpiritDeathEvent(Spirit spirit) {
+	public SpiritDeathEvent(SpiritType spirit) {
 		this.spirit = spirit;
 	}
 	
@@ -25,7 +25,7 @@ public class SpiritDeathEvent extends Event {
 	 * @return the spirit killed
 	 */
 	
-	public Spirit getSpirit() {
+	public SpiritType getSpirit() {
 		return spirit;
 	}
 	
