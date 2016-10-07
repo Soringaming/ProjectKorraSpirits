@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.GeneralMethods;
@@ -120,13 +121,14 @@ public class SoulRebirth extends DarkAbility {
 		this.spawnTime = System.currentTimeMillis();
 		
 		for (int i = 0; i < amount; i++) {
-			ArrayList<Location> locations = SpiritMethods.getCircle(player.getLocation(), 3, 36);
-			int value = SpiritMethods.randomInteger(0, locations.size() - 1);
-			Location location = locations.get(value);
-			DarkSpirit darkSpirit = new DarkSpirit(location.getWorld());
-			SpiritType.spawnEntity(darkSpirit, location);
-			ParticleEffect.LARGE_SMOKE.display(location, 0, 0, 0, 0, 1);
-			location.getWorld().playSound(location, Sound.ENTITY_WITHER_SHOOT, 1, 0.1F);
+			
+			List<Block> blocks = GeneralMethods.getBlocksAroundPoint(player.getLocation(), 4);
+			int value = SpiritMethods.randomInteger(0, blocks.size() - 1);
+			Location location = GeneralMethods.getTopBlock(blocks.get(value).getLocation(), 4, 4).getLocation();
+			Location spawnPoint = location.clone().add(0, 1, 0);
+			DarkSpirit darkSpirit = new DarkSpirit(spawnPoint.getWorld());
+			SpiritType.spawnEntity(darkSpirit, spawnPoint);
+			location.getWorld().playSound(location, Sound.ENTITY_WITHER_SHOOT, 0.25F, 0.1F);
 			spirits.add(darkSpirit);
 		}
 	}

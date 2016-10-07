@@ -63,7 +63,9 @@ public class ConfigManager {
 		
 		config.addDefault("Abilities.Dark.Corruption.Enabled", true);
 		config.addDefault("Abilities.Dark.Corruption.Cooldown", 1000);
-		config.addDefault("Abilities.Dark.Corruption.Range", 40);
+		config.addDefault("Abilities.Dark.Corruption.Radius", 10);
+		config.addDefault("Abilities.Dark.Corruption.WarmUp", 1000);
+		config.addDefault("Abilities.Dark.Corruption.Duration", 5000);
 		
 		config.addDefault("Abilities.Dark.SoulRebirth.Enabled", true);
 		config.addDefault("Abilities.Dark.SoulRebirth.Cooldown", 7000);
