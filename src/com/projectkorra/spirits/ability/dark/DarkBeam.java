@@ -15,9 +15,9 @@ import com.projectkorra.spirits.configuration.ConfigManager;
 
 public class DarkBeam extends DarkAbility {
 	
-	static long cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.DarkBeam.Cooldown");
-	static double range = ConfigManager.getConfig().getDouble("Abilities.Dark.DarkBeam.Range");
-	static double damage = ConfigManager.getConfig().getDouble("Abilities.Dark.DarkBeam.Damage");
+	private long cooldown;
+	private double range;
+	private double damage;
 	
 	private double distanceTravelled;
 	private Location location;
@@ -33,10 +33,18 @@ public class DarkBeam extends DarkAbility {
 		
 		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 2, 0.1f);
 		
+		setFields();
 		location = player.getEyeLocation();
 		direction = player.getEyeLocation().getDirection().normalize();
 		bPlayer.addCooldown(this);
 		start();
+	}
+	
+	public void setFields() {
+		
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.DarkBeam.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Dark.DarkBeam.Range");
+		this.damage = ConfigManager.getConfig().getDouble("Abilities.Dark.DarkBeam.Damage");
 	}
 
 	@Override
@@ -73,11 +81,11 @@ public class DarkBeam extends DarkAbility {
 				return;
 			}
 
-			ParticleEffect.LARGE_SMOKE.display((float) Math.random(), (float) Math.random(), (float) Math.random(), 0.1f, 5, location, 257D);
-			ParticleEffect.WITCH_MAGIC.display((float) Math.random(), (float) Math.random(), (float) Math.random(), 0.1f, 5, location, 257D);
+			ParticleEffect.SMOKE.display(location, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.05f, 5);
+			ParticleEffect.WITCH_MAGIC.display(location, 0, 0, 0, 0, 1);
 			
 			for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
-					DamageHandler.damageEntity(entity, damage, this);
+				DamageHandler.damageEntity(entity, damage, this);
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package com.projectkorra.spirits.configuration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -49,6 +50,12 @@ public class ConfigManager {
 		Collection<String> darkspiritDrops = new ArrayList<String>();
 		darkspiritDrops.add("GOLD_INGOT:3");
 		
+		List<String> convertableTypes = new ArrayList<String>();
+		convertableTypes.add("GRASS");
+		convertableTypes.add("DIRT");
+		convertableTypes.add("STONE");
+		convertableTypes.add("GRAVEL");
+		
 		//config.addDefault("Properties.Spirits." + SpiritType.DARK_SPIRIT.toString() + ".Enabled", Boolean.valueOf(true));
 		//config.addDefault("Properties.Spirits." + SpiritType.DARK_SPIRIT.toString() + ".Drops", darkspiritDrops);
 		
@@ -62,10 +69,12 @@ public class ConfigManager {
 		config.addDefault("Abilities.Dark.DarkBeam.Damage", 4);
 		
 		config.addDefault("Abilities.Dark.Corruption.Enabled", true);
-		config.addDefault("Abilities.Dark.Corruption.Cooldown", 1000);
+		config.addDefault("Abilities.Dark.Corruption.Cooldown", 120000);
 		config.addDefault("Abilities.Dark.Corruption.Radius", 10);
 		config.addDefault("Abilities.Dark.Corruption.WarmUp", 1000);
-		config.addDefault("Abilities.Dark.Corruption.Duration", 5000);
+		config.addDefault("Abilities.Dark.Corruption.Duration", 90000);
+		config.addDefault("Abilities.Dark.Corruption.Damage", 1);
+		config.addDefault("Abilities.Dark.Corruption.ConvertableTypes", convertableTypes);
 		
 		config.addDefault("Abilities.Dark.SoulRebirth.Enabled", true);
 		config.addDefault("Abilities.Dark.SoulRebirth.Cooldown", 7000);
@@ -75,6 +84,7 @@ public class ConfigManager {
 		config.addDefault("Abilities.Light.LightBeam.Enabled", true);
 		config.addDefault("Abilities.Light.LightBeam.Cooldown", 1000);
 		config.addDefault("Abilities.Light.LightBeam.Range", 40);
+		config.addDefault("Abilities.Light.LightBeam.Damage", 4);
 		
 		config.addDefault("Abilities.Light.Contain.Enabled", true);
 		config.addDefault("Abilities.Light.Contain.Cooldown", 1000);

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.projectkorra.projectkorra.util.ParticleEffect;
-import com.projectkorra.spirits.ability.dark.Corruption;
 import com.projectkorra.spirits.spiritmob.DarkSpirit;
 import com.projectkorra.spirits.spiritmob.LightSpirit;
 
@@ -45,13 +44,6 @@ public class SpiritManager extends BukkitRunnable {
 				}
 			}
 		}
-		
-		for (Player p : Corruption.instances.keySet()) {
-			Corruption.instances.get(p).progress();
-		}
-		
-		//Corruption.revertAll();
-		
 	}
 	
 }

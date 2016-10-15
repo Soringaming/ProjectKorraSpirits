@@ -6,6 +6,9 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.GeneralMethods;
@@ -19,11 +22,12 @@ import com.projectkorra.spirits.spiritmob.SpiritType;
 
 public class SoulRebirth extends DarkAbility {
 	
-	static long cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.SoulRebirth.Cooldown");
-	static double range = ConfigManager.getConfig().getDouble("Abilities.Dark.SoulRebirth.Range");
-	static double duration = ConfigManager.getConfig().getDouble("Abilities.Dark.SoulRebirth.Duration");
+	private long cooldown;
+	private double range;
+	private double duration;
 	
 	private Location origin;
+	private LivingEntity target;
 	private long chargeTime;
 	private long spawnTime;
 	private boolean spawned;
@@ -37,8 +41,16 @@ public class SoulRebirth extends DarkAbility {
 			return;
 		}
 		
+		setFields();
 		this.origin = player.getLocation();
 		start();
+	}
+	
+	public void setFields() {
+		
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Dark.SoulRebirth.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Dark.SoulRebirth.Range");
+		this.duration = ConfigManager.getConfig().getDouble("Abilities.Dark.SoulRebirth.Duration");
 	}
 
 	@Override
@@ -103,15 +115,19 @@ public class SoulRebirth extends DarkAbility {
 			return;
 		}
 		
-		chargeTime = System.currentTimeMillis() - startTime;
-		
-		if (chargeTime < 1000) {
-			cancel();
-			return;
-		} else if (chargeTime < 5000) {
-			spawn((int) Math.floor(chargeTime / 1000));
-		} else {
-			spawn(5);	
+		Entity target = GeneralMethods.getTargetedEntity(player, range);
+		if (target != null && target instanceof LivingEntity) {
+			this.target = (LivingEntity) target;
+			chargeTime = System.currentTimeMillis() - startTime;
+			
+			if (chargeTime < 1000) {
+				cancel();
+				return;
+			} else if (chargeTime < 5000) {
+				spawn((int) Math.floor(chargeTime / 1000));
+			} else {
+				spawn(5);	
+			}
 		}
 	}
 	
@@ -128,6 +144,10 @@ public class SoulRebirth extends DarkAbility {
 			Location spawnPoint = location.clone().add(0, 1, 0);
 			DarkSpirit darkSpirit = new DarkSpirit(spawnPoint.getWorld());
 			SpiritType.spawnEntity(darkSpirit, spawnPoint);
+			if (target != null) {
+				Creature spider = (Creature) darkSpirit.getBukkitEntity();
+				spider.setTarget(this.target);
+			}
 			location.getWorld().playSound(location, Sound.ENTITY_WITHER_SHOOT, 0.25F, 0.1F);
 			spirits.add(darkSpirit);
 		}
