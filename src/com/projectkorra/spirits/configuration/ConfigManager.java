@@ -84,6 +84,7 @@ public class ConfigManager {
 		config.addDefault("Abilities.Light.LightBeam.Enabled", true);
 		config.addDefault("Abilities.Light.LightBeam.Cooldown", 1000);
 		config.addDefault("Abilities.Light.LightBeam.Range", 40);
+		config.addDefault("Abilities.Light.LightBeam.Damage", 4);
 		
 		config.addDefault("Abilities.Light.Contain.Enabled", true);
 		config.addDefault("Abilities.Light.Contain.Cooldown", 1000);

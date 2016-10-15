@@ -1,19 +1,24 @@
 package com.projectkorra.spirits.ability.light;
 
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
+import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.spirits.ability.LightAbility;
 import com.projectkorra.spirits.configuration.ConfigManager;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
-
 public class LightBeam extends LightAbility {
-
+	
 	private long cooldown;
 	private double range;
+	private double damage;
+	
 	private double distanceTravelled;
 	private Location location;
 	private Vector direction;
@@ -26,12 +31,20 @@ public class LightBeam extends LightAbility {
 			return;
 		}
 		
-		cooldown = ConfigManager.getConfig().getLong("Abilities.Light.LightBeam.Cooldown");
-		range = ConfigManager.getConfig().getDouble("Abilities.Light.LightBeam.Range");
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 2, 0.1f);
+		
+		setFields();
 		location = player.getEyeLocation();
 		direction = player.getEyeLocation().getDirection().normalize();
 		bPlayer.addCooldown(this);
 		start();
+	}
+	
+	public void setFields() {
+		
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Light.LightBeam.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Light.LightBeam.Range");
+		this.damage = ConfigManager.getConfig().getDouble("Abilities.Light.LightBeam.Damage");
 	}
 
 	@Override
@@ -68,10 +81,12 @@ public class LightBeam extends LightAbility {
 				return;
 			}
 
-			ParticleEffect.CLOUD.display((float) Math.random(), (float) Math.random(), (float) Math.random(), 0.1f, 5, location, 257D);
-			/*for (int p = 0; p < 5; p++) {
-				GeneralMethods.displayColoredParticle(location, "ffd700", (float) Math.random(), (float) Math.random(), (float)Math.random());
-			}*/
+			ParticleEffect.FIREWORKS_SPARK.display(location, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.05f, 5);
+			GeneralMethods.displayColoredParticle(location, "ffff00");
+			
+			for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
+				DamageHandler.damageEntity(entity, damage, this);
+			}
 		}
 	}
 
