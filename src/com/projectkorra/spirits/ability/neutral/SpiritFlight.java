@@ -23,11 +23,12 @@ public class SpiritFlight extends SpiritAbility {
 	private double particleHeight;
 	private boolean particlesLowered;
 	private double startY;
+	private boolean loweringPlayer;
 	
 	public SpiritFlight(Player player) {
 		super(player);
 		
-		if (!bPlayer.canBend(this)) {
+		if (!bPlayer.canBendIgnoreBinds(this)) {
 			return;
 		}
 		if(check(player)) {
@@ -58,6 +59,7 @@ public class SpiritFlight extends SpiritAbility {
 		this.particlesLowered = true;
 		this.particleHeight = 0;
 		this.startY = player.getLocation().getY();
+		this.loweringPlayer = false;
 		
 	}
 	
@@ -81,21 +83,22 @@ public class SpiritFlight extends SpiritAbility {
 			remove();
 			return;
 		}
-		if(startTime + flightduration <= System.currentTimeMillis()) {
-			remove();
-			return;
-		}
-		if (!bPlayer.canBendIgnoreCooldowns(this)) {
-			remove();
-			return;
-		}
 		playSpiritFlightParticls();
-		if(player.isSneaking()) {
+		if(startTime + flightduration <= System.currentTimeMillis() || loweringPlayer) {
+			lowerPlayer();
+			loweringPlayer = true;
+			return;
+		}
+		if(!bPlayer.canBendIgnoreBindsCooldowns(this)) {
+			remove();
+			return;
+		}
+		if(player.isSneaking() && bPlayer.getBoundAbility().getName().equalsIgnoreCase("SpiritFlight") && loweringPlayer == false) {
 			startY = player.getLocation().getY();
 			Jet();
 		} else {
 			player.setVelocity(player.getVelocity());
-			if(player.getLocation().getY() > startY + 2.5) {
+			if(player.getLocation().getY() > startY + 4) {
 				player.setFlying(false);
 			} else if (!player.isFlying()){
 				player.setFlying(true);
@@ -158,6 +161,17 @@ public class SpiritFlight extends SpiritAbility {
 		}
 		loc.subtract(x2, y2, z2);
 		
+	}
+	
+	//Lowers the player
+	@SuppressWarnings("deprecation")
+	public void lowerPlayer() {
+		player.setFallDistance(0);
+		player.setVelocity(new Vector(0, -0.2, 0));
+		if(player.isOnGround()) {
+			remove();
+			return;
+		}
 	}
 	
 	//The remove method. Stops the player from flying if they aren't in Creative or Spectator
