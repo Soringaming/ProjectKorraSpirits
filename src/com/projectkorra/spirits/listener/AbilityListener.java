@@ -68,7 +68,7 @@ public class AbilityListener implements Listener {
 		
 		if (bPlayer.canBendIgnoreCooldowns(coreAbil) && bPlayer.isElementToggled(SpiritElement.SPIRIT) == true) {
 			if (coreAbil.getName().equalsIgnoreCase("SpiritFlight")) {
-				SpiritFlight.setFlying(player);
+				new SpiritFlight(player);
 			}
 			
 			
